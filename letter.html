@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>مكون الكلمات للأطفال</title>
+  <title>مكون الكلمات مع الحركات</title>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -23,42 +23,85 @@
       margin: 20px 0;
       border: 2px solid #ccc;
       border-radius: 10px;
-      width: 300px;
+      width: 320px;
     }
 
     button {
       font-size: 1.5em;
-      padding: 10px 20px;
-      background-color: #4CAF50;
-      color: white;
+      margin: 5px;
+      padding: 10px 15px;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       cursor: pointer;
     }
 
-    button:hover {
+    .play-button {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .play-button:hover {
       background-color: #45a049;
+    }
+
+    .haraka-button {
+      background-color: #ddd;
+    }
+
+    .haraka-button:hover {
+      background-color: #bbb;
     }
   </style>
 </head>
 <body>
 
-  <h1>مكون الكلمات للأطفال</h1>
-  <p>اكتب كلمة عربية واضغط "تشغيل" لسماعها</p>
+  <h1>مكون الكلمات مع الحركات</h1>
+  <p>اكتب كلمة بالحركات واضغط "تشغيل" أو Enter لسماعها</p>
 
-  <input type="text" id="arabicWord" placeholder="اكتب هنا..." />
+  <input type="text" id="arabicWord" placeholder="اكتب هنا..." onkeydown="handleKey(event)" />
   <br>
-  <button onclick="speakArabic()">🔊 تشغيل</button>
+
+  <!-- أزرار الحركات -->
+  <div>
+    <button class="haraka-button" onclick="insertHaraka('َ')">َ فتحة</button>
+    <button class="haraka-button" onclick="insertHaraka('ُ')">ُ ضمة</button>
+    <button class="haraka-button" onclick="insertHaraka('ِ')">ِ كسرة</button>
+    <button class="haraka-button" onclick="insertHaraka('ْ')">ْ سكون</button>
+    <button class="haraka-button" onclick="insertHaraka('ّ')">ّ شدة</button>
+    <button class="haraka-button" onclick="insertHaraka('ً')">ً تنوين فتح</button>
+    <button class="haraka-button" onclick="insertHaraka('ٌ')">ٌ تنوين ضم</button>
+    <button class="haraka-button" onclick="insertHaraka('ٍ')">ٍ تنوين كسر</button>
+  </div>
+
+  <br>
+  <button class="play-button" onclick="speakArabic()">🔊 تشغيل</button>
 
   <script>
+    function insertHaraka(haraka) {
+      const input = document.getElementById("arabicWord");
+      const start = input.selectionStart;
+      const end = input.selectionEnd;
+      const text = input.value;
+      input.value = text.slice(0, start) + haraka + text.slice(end);
+      input.focus();
+      input.setSelectionRange(start + 1, start + 1);
+    }
+
     function speakArabic() {
       const word = document.getElementById("arabicWord").value.trim();
       if (word) {
         const utterance = new SpeechSynthesisUtterance(word);
-        utterance.lang = 'ar-SA'; // Arabic (Saudi dialect)
+        utterance.lang = 'ar-SA';
         speechSynthesis.speak(utterance);
       } else {
-        alert("يرجى كتابة كلمة أولا!");
+        alert("يرجى كتابة كلمة أولاً!");
+      }
+    }
+
+    function handleKey(event) {
+      if (event.key === "Enter") {
+        event.preventDefault(); // يمنع السلوك الافتراضي
+        speakArabic();
       }
     }
   </script>
