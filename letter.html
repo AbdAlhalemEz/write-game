@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>مكون الكلمات مع الحركات</title>
+  <script src="https://code.responsivevoice.org/responsivevoice.js?key=demo"></script>
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -77,11 +78,6 @@
   <button class="play-button" onclick="speakArabic()">🔊 تشغيل</button>
 
   <script>
-    // تحميل الأصوات عند تغير القائمة
-    window.speechSynthesis.onvoiceschanged = () => {
-      speechSynthesis.getVoices();
-    };
-
     function insertHaraka(haraka) {
       const input = document.getElementById("arabicWord");
       const start = input.selectionStart;
@@ -99,21 +95,10 @@
         return;
       }
 
-      const synth = window.speechSynthesis;
-      const utterance = new SpeechSynthesisUtterance(word);
-      const voices = synth.getVoices();
-
-      // اختيار صوت عربي إن وُجد
-      const arabicVoice = voices.find(voice =>
-        voice.lang.startsWith("ar") || voice.name.toLowerCase().includes("arabic")
-      );
-
-      if (arabicVoice) {
-        utterance.voice = arabicVoice;
-        synth.speak(utterance);
+      if (responsiveVoice.voiceSupport()) {
+        responsiveVoice.speak(word, "Arabic Male");
       } else {
-        alert("⚠️ الصوت العربي غير متوفر على هذا الجهاز. يُرجى استخدام متصفح أو جهاز يدعمه.");
-        console.log("Available voices:", voices);
+        alert("⚠️ هذا المتصفح لا يدعم الصوت.");
       }
     }
 
