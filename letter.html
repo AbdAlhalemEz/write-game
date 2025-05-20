@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>مكون الكلمات للأطفال</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background: #f0f8ff;
+      direction: rtl;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #3366cc;
+    }
+
+    input {
+      font-size: 2em;
+      text-align: center;
+      padding: 10px;
+      margin: 20px 0;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      width: 300px;
+    }
+
+    button {
+      font-size: 1.5em;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>مكون الكلمات للأطفال</h1>
+  <p>اكتب كلمة عربية واضغط "تشغيل" لسماعها</p>
+
+  <input type="text" id="arabicWord" placeholder="اكتب هنا..." />
+  <br>
+  <button onclick="speakArabic()">🔊 تشغيل</button>
+
+  <script>
+    function speakArabic() {
+      const word = document.getElementById("arabicWord").value.trim();
+      if (word) {
+        const utterance = new SpeechSynthesisUtterance(word);
+        utterance.lang = 'ar-SA'; // Arabic (Saudi dialect)
+        speechSynthesis.speak(utterance);
+      } else {
+        alert("يرجى كتابة كلمة أولا!");
+      }
+    }
+  </script>
+
+</body>
+</html>
